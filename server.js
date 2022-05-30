@@ -2,6 +2,7 @@ const express = require('express');
 const morgan = require('morgan');
 
 const api = require('./api');
+const sequelize = require('./lib/sequelize');
 
 const app = express();
 const port = process.env.PORT || 8000;
@@ -26,6 +27,8 @@ app.use('*', function (err, req, res, next) {
     });
 });
 
-app.listen(port, function () {
-    console.log('Server is listening on port:', port);
+sequelize.sync().then(function () {
+    app.listen(port, function () {
+        console.log('Server is listening on port:', port);
+    });
 });
