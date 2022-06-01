@@ -26,7 +26,7 @@ router.post('/login', async function (req, res) {
 
 // GET /users/{id} - Fetch data about a specific user
 router.get('/:userId', async function (req, res) {
-    const userId = req.params.userId;
+    const userId = parseInt(req.params.userId);
     const user = await User.findByPk(userId);
     if (user) {
         res.status(200).send({
