@@ -101,13 +101,33 @@ router.get('/:assignmentId/submissions', async function (req, res) {
          */
         const lastPage = Math.ceil(result.count / numPerPage);
         const links = {};
-        if (page < lastPage) {
-            links.nextPage = `/businesses?page=${page + 1}`;
-            links.lastPage = `/businesses?page=${lastPage}`;
-        }
-        if (page > 1) {
-            links.prevPage = `/businesses?page=${page - 1}`;
-            links.firstPage = '/businesses?page=1';
+        if (req.query.studentId) {
+            let studentId = parseInt(req.query.studentId);
+            if (page < lastPage) {
+                links.nextPage = `/${assignmentId}/submissions?page=${
+                    page + 1
+                }?studentId=${studentId}`;
+                links.lastPage = `/${assignmentId}/submissions?page=${lastPage}?studentId=${studentId}`;
+            }
+            if (page > 1) {
+                links.prevPage = `/${assignmentId}/submissions?page=${
+                    page - 1
+                }?studentId=${studentId}`;
+                links.firstPage = `/${assignmentId}/submissions?page=1?studentId=${studentId}`;
+            }
+        } else {
+            if (page < lastPage) {
+                links.nextPage = `/${assignmentId}/submissions?page=${
+                    page + 1
+                }`;
+                links.lastPage = `/${assignmentId}/submissions?page=${lastPage}`;
+            }
+            if (page > 1) {
+                links.prevPage = `/${assignmentId}/submissions?page=${
+                    page - 1
+                }`;
+                links.firstPage = '/${assignmentId}/submissions?page=1';
+            }
         }
 
         /*
