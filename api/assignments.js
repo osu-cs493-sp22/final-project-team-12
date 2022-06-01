@@ -106,14 +106,14 @@ router.get('/:assignmentId/submissions', async function (req, res) {
             if (page < lastPage) {
                 links.nextPage = `/${assignmentId}/submissions?page=${
                     page + 1
-                }?studentId=${studentId}`;
-                links.lastPage = `/${assignmentId}/submissions?page=${lastPage}?studentId=${studentId}`;
+                }&studentId=${studentId}`;
+                links.lastPage = `/${assignmentId}/submissions?page=${lastPage}&studentId=${studentId}`;
             }
             if (page > 1) {
                 links.prevPage = `/${assignmentId}/submissions?page=${
                     page - 1
-                }?studentId=${studentId}`;
-                links.firstPage = `/${assignmentId}/submissions?page=1?studentId=${studentId}`;
+                }&studentId=${studentId}`;
+                links.firstPage = `/${assignmentId}/submissions?page=1&studentId=${studentId}`;
             }
         } else {
             if (page < lastPage) {
