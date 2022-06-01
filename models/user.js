@@ -1,20 +1,20 @@
-const { DataTypes } = require("sequelize");
+const { DataTypes } = require('sequelize');
 
-const sequelize = require("../lib/sequelize");
-const bcrypt = require("bcryptjs");
+const sequelize = require('../lib/sequelize');
+const bcrypt = require('bcryptjs');
 
-const User = sequelize.define("user", {
-  name: { type: DataTypes.STRING, allowNull: false },
-  email: { type: DataTypes.STRING, allowNull: false },
-  password: {
-    type: DataTypes.STRING,
-    set(value) {
-      this.setDataValue("password", bcrypt.hashSync(value, 8));
+const User = sequelize.define('user', {
+    name: { type: DataTypes.STRING, allowNull: false },
+    email: { type: DataTypes.STRING, allowNull: false },
+    password: {
+        type: DataTypes.STRING,
+        set(value) {
+            this.setDataValue('password', bcrypt.hashSync(value, 8));
+        },
+        allowNull: false,
     },
-    allowNull: false,
-  },
-  role: { type: DataTypes.STRING, allowNull: false },
+    role: { type: DataTypes.STRING, allowNull: false },
 });
 
 exports.User = User;
-exports.UserClientFields = ["name", "email", "password", "role"];
+exports.UserClientFields = ['name', 'email', 'password', 'role'];
