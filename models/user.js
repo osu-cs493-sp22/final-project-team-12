@@ -19,6 +19,7 @@ const User = sequelize.define('user', {
     role: { type: DataTypes.STRING, allowNull: false },
 });
 
+// https://sequelize.org/docs/v6/advanced-association-concepts/advanced-many-to-many/
 User.belongsToMany(Course, { through: 'Students' });
 Course.belongsToMany(User, { through: 'Students' });
 

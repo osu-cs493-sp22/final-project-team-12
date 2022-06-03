@@ -176,6 +176,7 @@ router.post('/:courseId/students', requireAuth, async function (req, res) {
             });
         } else {
             try {
+                // https://sequelize.org/docs/v6/core-concepts/assocs/#foohasmanybar
                 req.body.add.forEach(userId => await course.addUser(userId));
                 req.body.remove.forEach(userId => await course.removeUser(userId));
                 res.status(200).send();
