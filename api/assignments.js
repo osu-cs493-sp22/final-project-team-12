@@ -18,7 +18,7 @@ router.post('/', requireAuth, async function (req, res) {
             validInstructor = true;
         }
     }
-    if (req.role !== 'admin' || validInstructor === false) {
+    if (req.role !== 'admin' && validInstructor === false) {
         res.status(403).send({
             error: 'Invalid credentials',
         });
@@ -61,7 +61,7 @@ router.patch('/:assignmentId', requireAuth, async function (req, res) {
             validInstructor = true;
         }
     }
-    if (req.role !== 'admin' || validInstructor === false) {
+    if (req.role !== 'admin' && validInstructor === false) {
         res.status(403).send({
             error: 'Invalid credentials',
         });
@@ -93,7 +93,7 @@ router.delete('/:assignmentId', requireAuth, async function (req, res) {
             validInstructor = true;
         }
     }
-    if (req.role !== 'admin' || validInstructor === false) {
+    if (req.role !== 'admin' && validInstructor === false) {
         res.status(403).send({
             error: 'Invalid credentials',
         });
@@ -139,7 +139,7 @@ router.get(
                     validInstructor = true;
                 }
             }
-            if (req.role !== 'admin' || validInstructor === false) {
+            if (req.role !== 'admin' && validInstructor === false) {
                 res.status(403).send({
                     error: 'Invalid credentials',
                 });
