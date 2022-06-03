@@ -239,7 +239,7 @@ router.post(
                     validStudent = true;
                 }
             }
-            if (req.role !== 'admin' || validStudent === false) {
+            if (validStudent === false) {
                 res.status(401).send({
                     error: 'Invalid credentials',
                 });
