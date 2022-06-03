@@ -76,7 +76,6 @@ router.get('/:userId', requireAuth, async function (req, res) {
                     where: { id: user.id },
                     include: {
                         model: Course,
-                        where: { role: 'student' },
                         through: { attributes: [id] },
                     },
                 });

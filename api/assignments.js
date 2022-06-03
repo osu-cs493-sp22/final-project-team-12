@@ -231,7 +231,6 @@ router.post(
                     where: { id: req.user },
                     include: {
                         model: Course,
-                        where: { role: 'student' },
                         through: { attributes: [id] },
                     },
                 });
