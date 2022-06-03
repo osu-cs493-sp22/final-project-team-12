@@ -229,13 +229,13 @@ router.post(
             if (req.role === 'student') {
                 const student = await User.findAll({
                     where: { id: req.user },
-                    include: {
-                        model: Course,
-                        through: { attributes: [id] },
-                    },
+                    include: Course,
                 });
-                if (student.Courses[0].id === assignment.courseId) {
-                    validStudent = true;
+                console.log('== student courses:', student);
+                if (student.courses.length != 0) {
+                    if (student.courses[0].courseId === assignment.courseId) {
+                        validStudent = true;
+                    }
                 }
             }
             if (validStudent === false) {

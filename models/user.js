@@ -22,12 +22,12 @@ const User = sequelize.define('user', {
 // https://sequelize.org/docs/v6/advanced-association-concepts/advanced-many-to-many/
 User.belongsToMany(Course, { through: 'Students' });
 Course.belongsToMany(User, { through: 'Students' });
-
+/*
 Assignment.hasMany(Submission, { foreignKey: { allowNull: false } });
 Submission.belongsTo(Assignment);
 
 Course.hasMany(Assignment, { foreignKey: { allowNull: false } });
 Assignment.belongsTo(Course);
-
+*/
 exports.User = User;
 exports.UserClientFields = ['name', 'email', 'password', 'role'];

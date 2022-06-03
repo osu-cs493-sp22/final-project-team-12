@@ -74,7 +74,7 @@ router.post('/', requireAuth, async function (req, res) {
 // GET /courses/{id} - Fetch data about a specific course
 router.get('/:courseId', async function (req, res) {
     const courseId = parseInt(req.params.courseId);
-    const course = await course.findByPk(courseId);
+    const course = await Course.findByPk(courseId);
     if (course) {
         res.status(200).send(course);
     } else {
@@ -152,7 +152,7 @@ router.get('/:courseId/students', requireAuth, async function (req, res) {
                     where: { role: 'student' },
                 },
             });
-            res.status(200).json({ students: result.Users });
+            res.status(200).json({ students: result.users });
         }
     }
 });
@@ -177,8 +177,14 @@ router.post('/:courseId/students', requireAuth, async function (req, res) {
         } else {
             try {
                 // https://sequelize.org/docs/v6/core-concepts/assocs/#foohasmanybar
-                req.body.add.forEach(userId => await course.addUser(userId));
-                req.body.remove.forEach(userId => await course.removeUser(userId));
+                //req.body.add.forEach(userId => await course.addUser(userId));
+                //req.body.remove.forEach(userId => await course.removeUser(userId));
+                for (const userId of req.body.add) {
+                    await course.addUser(userId);
+                }
+                for (const userId of req.body.remove) {
+                    await course.removeUser(userId);
+                }
                 res.status(200).send();
             } catch (e) {
                 if (e instanceof ValidationError) {

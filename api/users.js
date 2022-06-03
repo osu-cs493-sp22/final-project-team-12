@@ -4,6 +4,7 @@ const { ValidationError } = require('sequelize');
 const { generateAuthToken, requireAuth, checkAdmin } = require('../lib/auth');
 const { User, UserClientFields } = require('../models/user');
 const { Course } = require('../models/course');
+const bcrypt = require('bcryptjs');
 
 const router = Router();
 
@@ -38,7 +39,7 @@ router.post('/login', async function (req, res) {
             res.status(200).send({ token: token });
         } else {
             res.status(401).send({
-                error: 'Invalid credentials',
+                error: 'Invalid credentials or login info',
             });
         }
     } else {
@@ -52,14 +53,14 @@ router.post('/login', async function (req, res) {
 router.get('/:userId', requireAuth, async function (req, res) {
     const userId = parseInt(req.params.userId);
 
-    if (req.user.toString() !== userId && req.role !== 'admin') {
+    if (req.user !== userId && req.role !== 'admin') {
         res.status(403).send({
             error: 'Invalid credentials',
         });
     } else {
         const user = await User.findByPk(userId);
         if (user) {
-            if (req.role === 'instructor') {
+            if (user.role === 'instructor') {
                 const courses = await Course.findAll({
                     where: { instructorId: userId },
                 });
@@ -70,21 +71,22 @@ router.get('/:userId', requireAuth, async function (req, res) {
                     role: user.role,
                     courses: courses,
                 });
-            } else if (req.role === 'student') {
+            } else if (user.role === 'student') {
                 // https://sequelize.org/docs/v6/advanced-association-concepts/eager-loading/#eager-loading-with-many-to-many-relationships
                 const student = await User.findAll({
                     where: { id: user.id },
                     include: {
                         model: Course,
-                        through: { attributes: [id] },
+                        through: { attributes: ['courseId'] },
                     },
                 });
+                console.log('== student:', student);
                 res.status(200).send({
                     id: user.id,
                     name: user.name,
                     email: user.email,
                     role: user.role,
-                    students: student.Courses,
+                    students: student.courses,
                 });
             } else {
                 res.status(200).send({
