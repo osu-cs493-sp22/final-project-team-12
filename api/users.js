@@ -9,8 +9,8 @@ const router = Router();
 
 // POST /users - Create a new user
 router.post('/', checkAdmin, async function (req, res) {
-    if (req.role !== 'admin' && req.body.role !== 'admin') {
-        res.status(401).send({
+    if (req.role !== 'admin' && req.body.role !== 'student') {
+        res.status(403).send({
             error: 'Invalid credentials',
         });
     } else {
@@ -53,7 +53,7 @@ router.get('/:userId', requireAuth, async function (req, res) {
     const userId = parseInt(req.params.userId);
 
     if (req.user.toString() !== userId && req.role !== 'admin') {
-        res.status(401).send({
+        res.status(403).send({
             error: 'Invalid credentials',
         });
     } else {

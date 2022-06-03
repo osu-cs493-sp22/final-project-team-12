@@ -19,7 +19,7 @@ router.post('/', requireAuth, async function (req, res) {
         }
     }
     if (req.role !== 'admin' || validInstructor === false) {
-        res.status(401).send({
+        res.status(403).send({
             error: 'Invalid credentials',
         });
     } else {
@@ -62,7 +62,7 @@ router.patch('/:assignmentId', requireAuth, async function (req, res) {
         }
     }
     if (req.role !== 'admin' || validInstructor === false) {
-        res.status(401).send({
+        res.status(403).send({
             error: 'Invalid credentials',
         });
     } else {
@@ -94,7 +94,7 @@ router.delete('/:assignmentId', requireAuth, async function (req, res) {
         }
     }
     if (req.role !== 'admin' || validInstructor === false) {
-        res.status(401).send({
+        res.status(403).send({
             error: 'Invalid credentials',
         });
     } else {
@@ -140,7 +140,7 @@ router.get(
                 }
             }
             if (req.role !== 'admin' || validInstructor === false) {
-                res.status(401).send({
+                res.status(403).send({
                     error: 'Invalid credentials',
                 });
             } else {
@@ -239,7 +239,7 @@ router.post(
                 }
             }
             if (validStudent === false) {
-                res.status(401).send({
+                res.status(403).send({
                     error: 'Invalid credentials',
                 });
             } else {
