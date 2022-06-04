@@ -1,37 +1,37 @@
 [
-    {
-        "courseId": "1",
-        "title": "CS493 Assignment 4",
-        "points": "100",
-        "due": "2022-05-31T17:00:00-07:00",
-        "instructorId": 2
-    },
-    {
-        "courseId": "1",
-        "title": "CS493 Assignment 4",
-        "points": "100",
-        "due": "2022-05-31T17:00:00-07:00",
-        "instructorId": 2
-    },
-    {
-        "courseId": "1",
-        "title": "CS493 Final Project",
-        "points": "200",
-        "due": "2022-06-14T17:00:00-07:00",
-        "instructorId": 2
-    },
-    {
-        "courseId": "4",
-        "title": "CS344 Smallsh",
-        "points": "60",
-        "due": "2022-04-31T17:00:00-07:00",
-        "instructorId": 4
-    },
-    {
-        "courseId": "3",
-        "title": "CS444 Lab4",
-        "points": "80",
-        "due": "2022-06-08T17:00:00-07:00",
-        "instructorId": 2
-    }
+  {
+    "courseId": 1,
+    "title": "CS493 Assignment 4",
+    "points": 100,
+    "due": "2022-05-31T17:00:00-07:00",
+    "instructorId": 2
+  },
+  {
+    "courseId": 1,
+    "title": "CS493 Assignment 4",
+    "points": 100,
+    "due": "2022-05-31T17:00:00-07:00",
+    "instructorId": 2
+  },
+  {
+    "courseId": 1,
+    "title": "CS493 Final Project",
+    "points": 200,
+    "due": "2022-06-14T17:00:00-07:00",
+    "instructorId": 2
+  },
+  {
+    "courseId": 4,
+    "title": "CS344 Smallsh",
+    "points": 60,
+    "due": "2022-04-31T17:00:00-07:00",
+    "instructorId": 4
+  },
+  {
+    "courseId": 3,
+    "title": "CS444 Lab4",
+    "points": 80,
+    "due": "2022-06-08T17:00:00-07:00",
+    "instructorId": 2
+  }
 ]
