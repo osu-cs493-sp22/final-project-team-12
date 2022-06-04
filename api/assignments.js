@@ -13,7 +13,7 @@ const router = Router();
 router.post('/', requireAuth, async function (req, res) {
     let validInstructor = false;
     if (req.role === 'instructor') {
-        const course = Course.findByPk(req.body.courseId);
+        const course = await Course.findByPk(req.body.courseId);
         if (course.instructorId === req.user) {
             validInstructor = true;
         }
@@ -56,7 +56,7 @@ router.patch('/:assignmentId', requireAuth, async function (req, res) {
     const assignment = await Assignment.findByPk(assignmentId); // used for auth
     let validInstructor = false;
     if (req.role === 'instructor') {
-        const course = Course.findByPk(assignment.courseId);
+        const course = await Course.findByPk(assignment.courseId);
         if (course.instructorId === req.user) {
             validInstructor = true;
         }
@@ -88,7 +88,7 @@ router.delete('/:assignmentId', requireAuth, async function (req, res) {
     const assignment = await Assignment.findByPk(assignmentId); // used for auth
     let validInstructor = false;
     if (req.role === 'instructor') {
-        const course = Course.findByPk(assignment.courseId);
+        const course = await Course.findByPk(assignment.courseId);
         if (course.instructorId === req.user) {
             validInstructor = true;
         }
@@ -134,7 +134,7 @@ router.get(
         } else {
             let validInstructor = false;
             if (req.role === 'instructor') {
-                const course = Course.findByPk(assignment.courseId);
+                const course = await Course.findByPk(assignment.courseId);
                 if (course.instructorId === req.user) {
                     validInstructor = true;
                 }
