@@ -2,6 +2,7 @@ const express = require('express');
 const morgan = require('morgan');
 
 const api = require('./api');
+const { checkAuthToken } = require('./lib/auth');
 const { rateLimit } = require('./lib/rateLimit');
 const redisClient = require('./lib/redis');
 const sequelize = require('./lib/sequelize');
@@ -14,6 +15,7 @@ app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.static('public'));
 
+app.use(checkAuthToken);
 app.use(rateLimit);
 app.use('/', api);
 
