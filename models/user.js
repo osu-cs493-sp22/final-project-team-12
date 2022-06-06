@@ -1,10 +1,8 @@
 const { DataTypes } = require('sequelize');
+const bcrypt = require('bcryptjs');
 
 const sequelize = require('../lib/sequelize');
-const bcrypt = require('bcryptjs');
 const { Course } = require('./course');
-const { Assignment } = require('./assignment');
-const { Submission } = require('./submission');
 
 const User = sequelize.define('user', {
     name: { type: DataTypes.STRING, allowNull: false },
@@ -22,12 +20,6 @@ const User = sequelize.define('user', {
 // https://sequelize.org/docs/v6/advanced-association-concepts/advanced-many-to-many/
 User.belongsToMany(Course, { through: 'Students' });
 Course.belongsToMany(User, { through: 'Students' });
-/*
-Assignment.hasMany(Submission, { foreignKey: { allowNull: false } });
-Submission.belongsTo(Assignment);
 
-Course.hasMany(Assignment, { foreignKey: { allowNull: false } });
-Assignment.belongsTo(Course);
-*/
 exports.User = User;
 exports.UserClientFields = ['name', 'email', 'password', 'role'];
