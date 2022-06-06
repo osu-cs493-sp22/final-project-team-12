@@ -1,5 +1,7 @@
 const { Router } = require('express');
 const { ValidationError } = require('sequelize');
+const multer = require('multer');
+const crypto = require('crypto');
 
 const { Assignment, AssignmentClientFields } = require('../models/assignment');
 const { Submission, SubmissionClientFields } = require('../models/submission');
@@ -8,6 +10,30 @@ const { User } = require('../models/user');
 const { requireAuth } = require('../lib/auth');
 
 const router = Router();
+
+const fileTypes = {
+    'application/pdf': 'pdf',
+    'application/msword': 'doc',
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
+        'docx',
+    'application/vnd.ms-powerpoint': 'ppt',
+    'application/vnd.openxmlformats-officedocument.presentationml.presentation':
+        'pptx',
+};
+
+const upload = multer({
+    storage: multer.diskStorage({
+        destination: `${__dirname}/uploads`,
+        filename: function (req, file, callback) {
+            const ext = fileTypes[file.mimetype];
+            const filename = crypto.pseudoRandomBytes(16).toString('hex');
+            callback(null, `${filename}.${ext}`);
+        },
+    }),
+    fileFilter: function (req, file, callback) {
+        callback(null, !!fileTypes[file.mimetype]);
+    },
+});
 
 // POST /assignments - Create a new assignment
 router.post('/', requireAuth, async function (req, res) {
@@ -217,6 +243,7 @@ router.get(
 router.post(
     '/:assignmentId/submissions',
     requireAuth,
+    upload.single('file'),
     async function (req, res) {
         const assignmentId = parseInt(req.params.assignmentId);
         const assignment = await Assignment.findByPk(assignmentId);
@@ -227,14 +254,22 @@ router.post(
         } else {
             let validStudent = false;
             if (req.role === 'student') {
-                const student = await User.findAll({
+                const student = await User.findOne({
                     where: { id: req.user },
-                    include: Course,
+                    include: {
+                        model: Course,
+                        through: {
+                            attributes: [],
+                        },
+                    },
                 });
-                console.log('== student courses:', student);
-                if (student.courses.length != 0) {
-                    if (student.courses[0].courseId === assignment.courseId) {
-                        validStudent = true;
+                const courses = student.courses;
+                if (courses && courses.length != 0) {
+                    for (let i = 0; i < courses.length; i++) {
+                        if (courses[i].id === assignment.courseId) {
+                            validStudent = true;
+                            break;
+                        }
                     }
                 }
             }
@@ -243,9 +278,18 @@ router.post(
                     error: 'Invalid credentials',
                 });
             } else {
+                console.log('req.body', req.body);
+                console.log('req.file', req.file);
                 try {
+                    const submissionFile = {
+                        assignmentId: assignmentId,
+                        studentId: req.body.studentId,
+                        timestamp: req.body.timestamp,
+                        grade: 0,
+                        file: `/media/submissions/${req.file.filename}`,
+                    };
                     const submission = await Submission.create(
-                        req.body,
+                        submissionFile,
                         SubmissionClientFields
                     );
                     res.status(201).send({ id: submission.id });

@@ -19,6 +19,8 @@ app.use(checkAuthToken);
 app.use(rateLimit);
 app.use('/', api);
 
+app.use('/media/submissions/', express.static(`${__dirname}/api/uploads`));
+
 app.use('*', function (req, res, next) {
     res.status(404).send({
         error: 'Requested resource ' + req.originalUrl + ' does not exist',
