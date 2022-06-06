@@ -1,11 +1,11 @@
 const { Router } = require('express');
 const { ValidationError } = require('sequelize');
+const { parse } = require('json2csv');
 
+const { requireAuth } = require('../lib/auth');
 const { Course, CourseClientFields } = require('../models/course');
 const { Assignment } = require('../models/assignment');
 const { User } = require('../models/user');
-const { requireAuth } = require('../lib/auth');
-const { Parser } = require('json2csv');
 
 const router = Router();
 
@@ -129,7 +129,6 @@ router.delete('/:courseId', requireAuth, async function (req, res) {
 
 // GET /courses/{id}/students - Fetch a list of the students enrolled in the course
 router.get('/:courseId/students', requireAuth, async function (req, res) {
-    //This works if students have a courseId (but thats 1:1)
     const courseId = parseInt(req.params.courseId);
     const course = await Course.findByPk(courseId);
     if (!course) {
@@ -146,17 +145,16 @@ router.get('/:courseId/students', requireAuth, async function (req, res) {
                 error: 'Invalid credentials',
             });
         } else {
-            const students = await Course.findAll({
-                where: { id: course.id},
-                raw: true,
-                /*include: [{
+            const result = await Course.findOne({
+                where: { id: course.id },
+                include: {
                     model: User,
-                    where: { role: 'student' }
-                }]*/
-                include: User
+                    through: {
+                        attributes: [],
+                    },
+                },
             });
-            //console.log(students)
-            res.status(200).json({students});
+            res.status(200).json({ students: result.users });
         }
     }
 });
@@ -181,15 +179,16 @@ router.post('/:courseId/students', requireAuth, async function (req, res) {
         } else {
             try {
                 // https://sequelize.org/docs/v6/core-concepts/assocs/#foohasmanybar
-                //req.body.add.forEach(userId => await course.addUser(userId));
-                //req.body.remove.forEach(userId => await course.removeUser(userId));
-                await course.addUser(req.body.add);
-                //for (const userId of req.body.add) {
-                //    await course.addUser(userId);
-                //}
-                //for (const userId of req.body.remove) {
-                //    await course.removeUser(userId);
-                //}
+                studentsToAdd = req.body.add;
+                studentsToRemove = req.body.remove;
+                for (let i = 0; i < studentsToAdd.length; i++) {
+                    const student = await User.findByPk(studentsToAdd[i]);
+                    await course.addUser(student);
+                }
+                for (let i = 0; i < studentsToRemove.length; i++) {
+                    const student = await User.findByPk(studentsToRemove[i]);
+                    await course.removeUser(student);
+                }
                 res.status(200).send();
             } catch (e) {
                 if (e instanceof ValidationError) {
@@ -217,16 +216,19 @@ router.get('/:courseId/roster', requireAuth, async function (req, res) {
             error: 'Invalid credentials',
         });
     } else {
-        /*File upload section*/
-        const students = await Course.findAll({
-            where: { id: course.id},
-            attributes: {exclude: ['id', 'subject', 'number', 'term', 'instructorId', 'createdAt', 'updatedAt']},
-            raw: true,
-            include: [{model: User, attributes: {exclude: ['id', 'password','role', 'createdAt', 'updatedAt']}}]
+        const result = await Course.findOne({
+            where: { id: course.id },
+            include: {
+                model: User,
+                attributes: ['id', 'name', 'email'],
+                through: {
+                    attributes: [],
+                },
+            },
         });
-        const studentInfo = ['id', 'name', 'email']
-        const parser = new Parser({studentInfo})
-        const output = parser.parse(students)
+        const students = result.users;
+        const fields = ['id', 'name', 'email'];
+        const output = parse(students, { fields });
 
         res.status(200).type('text/csv').send(output);
     }
@@ -239,12 +241,10 @@ router.get('/:courseId/assignments', async function (req, res) {
     if (!course) {
         res.status(404).send({ error: 'Specified Course ID not found' });
     } else {
-        const result = await Assignment.findAndCountAll({
-            where: {
-                courseId: courseId,
-            },
+        const assignments = await Assignment.findAll({
+            where: { courseId: courseId },
         });
-        res.status(200).json({ assignments: result.rows });
+        res.status(200).json({ assignments: assignments });
     }
 });
 

@@ -227,14 +227,17 @@ router.post(
         } else {
             let validStudent = false;
             if (req.role === 'student') {
-                const student = await User.findAll({
+                const student = await User.findOne({
                     where: { id: req.user },
                     include: Course,
                 });
-                console.log('== student courses:', student);
-                if (student.courses.length != 0) {
-                    if (student.courses[0].courseId === assignment.courseId) {
-                        validStudent = true;
+                const courses = student.courses;
+                if (courses && courses.length != 0) {
+                    for (let i = 0; i < courses.length; i++) {
+                        if (courses[i].courseId === assignment.courseId) {
+                            validStudent = true;
+                            break;
+                        }
                     }
                 }
             }

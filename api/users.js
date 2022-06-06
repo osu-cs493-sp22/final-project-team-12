@@ -52,7 +52,6 @@ router.post('/login', async function (req, res) {
 // GET /users/{id} - Fetch data about a specific user
 router.get('/:userId', requireAuth, async function (req, res) {
     const userId = parseInt(req.params.userId);
-
     if (req.user !== userId && req.role !== 'admin') {
         res.status(403).send({
             error: 'Invalid credentials',
@@ -68,31 +67,35 @@ router.get('/:userId', requireAuth, async function (req, res) {
                     id: user.id,
                     name: user.name,
                     email: user.email,
+                    password: user.password,
                     role: user.role,
                     courses: courses,
                 });
             } else if (user.role === 'student') {
                 // https://sequelize.org/docs/v6/advanced-association-concepts/eager-loading/#eager-loading-with-many-to-many-relationships
-                const student = await User.findAll({
+                const student = await User.findOne({
                     where: { id: user.id },
                     include: {
                         model: Course,
-                        through: { attributes: ['courseId'] },
+                        through: {
+                            attributes: [],
+                        },
                     },
                 });
-                console.log('== student:', student);
                 res.status(200).send({
                     id: user.id,
                     name: user.name,
                     email: user.email,
+                    password: user.password,
                     role: user.role,
-                    students: student.courses,
+                    courses: student.courses,
                 });
             } else {
                 res.status(200).send({
                     id: user.id,
                     name: user.name,
                     email: user.email,
+                    password: user.password,
                     role: user.role,
                 });
             }
