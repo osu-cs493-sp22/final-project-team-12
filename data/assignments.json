@@ -1,37 +1,114 @@
 [
   {
     "courseId": 1,
-    "title": "CS493 Assignment 4",
+    "title": "CS 493 Assignment 1",
     "points": 100,
     "due": "2022-05-31T17:00:00-07:00",
     "instructorId": 2
   },
   {
     "courseId": 1,
-    "title": "CS493 Assignment 4",
+    "title": "CS 493 Assignment 4",
     "points": 100,
     "due": "2022-05-31T17:00:00-07:00",
     "instructorId": 2
   },
   {
     "courseId": 1,
-    "title": "CS493 Final Project",
+    "title": "CS 493 Final Project",
     "points": 200,
     "due": "2022-06-14T17:00:00-07:00",
     "instructorId": 2
   },
   {
     "courseId": 4,
-    "title": "CS344 Smallsh",
+    "title": "CS 344 Assignment 4",
     "points": 60,
     "due": "2022-04-31T17:00:00-07:00",
     "instructorId": 4
   },
   {
     "courseId": 3,
-    "title": "CS444 Lab4",
+    "title": "CS 444 Lab 4",
     "points": 80,
     "due": "2022-06-08T17:00:00-07:00",
     "instructorId": 2
+  },
+  {
+    "courseId": 5,
+    "title": "CS 440 Assignment 3",
+    "points": 100,
+    "due": "2022-06-08T17:00:00-07:00",
+    "instructorId": 3
+  },
+  {
+    "courseId": 8,
+    "title": "CS 290 Final Project",
+    "points": 200,
+    "due": "2022-06-08T17:00:00-07:00",
+    "instructorId": 3
+  },
+  {
+    "courseId": 7,
+    "title": "CS 261 Assignment 1",
+    "points": 100,
+    "due": "2022-06-08T17:00:00-07:00",
+    "instructorId": 2
+  },
+  {
+    "courseId": 3,
+    "title": "CS 444 Lab 1",
+    "points": 80,
+    "due": "2022-06-08T17:00:00-07:00",
+    "instructorId": 2
+  },
+  {
+    "courseId": 2,
+    "title": "CS 340 Assignment 1",
+    "points": 100,
+    "due": "2022-06-08T17:00:00-07:00",
+    "instructorId": 3
+  },
+  {
+    "courseId": 6,
+    "title": "ECE 375 Lab 1",
+    "points": 50,
+    "due": "2022-06-08T17:00:00-07:00",
+    "instructorId": 4
+  },
+  {
+    "courseId": 8,
+    "title": "CS 290 Assignment 2",
+    "points": 100,
+    "due": "2022-06-08T17:00:00-07:00",
+    "instructorId": 3
+  },
+  {
+    "courseId": 4,
+    "title": "CS 344 Assignment 6",
+    "points": 80,
+    "due": "2022-06-08T17:00:00-07:00",
+    "instructorId": 4
+  },
+  {
+    "courseId": 2,
+    "title": "CS 340 Assignment 4",
+    "points": 100,
+    "due": "2022-06-08T17:00:00-07:00",
+    "instructorId": 3
+  },
+  {
+    "courseId": 7,
+    "title": "CS 261 Assignment 3",
+    "points": 100,
+    "due": "2022-06-08T17:00:00-07:00",
+    "instructorId": 2
+  },
+  {
+    "courseId": 6,
+    "title": "ECE 375 Lab 3",
+    "points": 50,
+    "due": "2022-06-08T17:00:00-07:00",
+    "instructorId": 4
   }
 ]

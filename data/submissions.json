@@ -4,34 +4,34 @@
     "studentId": 5,
     "timestamp": "2022-06-31T17:00:00-07:00",
     "grade": 100,
-    "file": "Junk file data - edit when adding file uploads"
+    "file": "/"
   },
   {
     "assignmentId": 2,
     "studentId": 6,
     "timestamp": "2022-04-31T17:00:00-07:00",
     "grade": 90,
-    "file": "Junk file data - edit when adding file uploads"
+    "file": "/"
   },
   {
     "assignmentId": 2,
     "studentId": 7,
     "timestamp": "2022-04-31T17:00:00-07:00",
     "grade": 80,
-    "file": "Junk file data - edit when adding file uploads"
+    "file": "/"
   },
   {
     "assignmentId": 3,
     "studentId": 9,
     "timestamp": "2022-03-31T17:00:00-07:00",
     "grade": 50,
-    "file": "Junk file data - edit when adding file uploads"
+    "file": "/"
   },
   {
     "assignmentId": 4,
     "studentId": 9,
     "timestamp": "2022-04-31T17:00:00-07:00",
     "grade": 0,
-    "file": "Junk file data - edit when adding file uploads"
+    "file": "/"
   }
 ]

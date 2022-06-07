@@ -1,97 +1,97 @@
 [
   {
     "name": "Nick Arzner",
-    "email": "nick@block15.com",
+    "email": "nick@oregonstate.edu",
     "password": "hunter2",
     "role": "admin"
   },
   {
     "name": "Tori Lockwood",
-    "email": "tori@robnetts.com",
+    "email": "tori@oregonstate.edu",
     "password": "hunter2",
     "role": "instructor"
   },
   {
     "name": "Joel Rea",
-    "email": "joel@lickspigot.com",
+    "email": "joel@oregonstate.edu",
     "password": "hunter2",
     "role": "instructor"
   },
   {
-    "name": "The Owners",
-    "email": "owners@firstalt.coop",
+    "name": "Anna Peterson",
+    "email": "anna@oregonstate.edu",
     "password": "hunter2",
     "role": "instructor"
   },
   {
     "name": "Kim Marchesi",
-    "email": "kim@localboyzhawaiiancafe.com",
+    "email": "kim@oregonstate.edu",
     "password": "hunter2",
     "role": "student"
   },
   {
     "name": "William McCanless",
-    "email": "william@interzoneorganic1.com",
+    "email": "william@oregonstate.edu",
     "password": "hunter2",
     "role": "student"
   },
   {
     "name": "Paul Turner",
-    "email": "paul@darksidecinema.com",
+    "email": "paul@oregonstate.edu",
     "password": "hunter2",
     "role": "student"
   },
   {
     "name": "Cody Utzman",
-    "email": "cody@bodhibakery.com",
+    "email": "cody@oregonstate.edu",
     "password": "hunter2",
     "role": "student"
   },
   {
-    "name": "Winco Employees",
-    "email": "employees@wincofoods.com",
+    "name": "Sebastien Marsh",
+    "email": "sebastien@oregonstate.edu",
     "password": "hunter2",
     "role": "student"
   },
   {
     "name": "Philip Wilson",
-    "email": "philib@bookbin.com",
+    "email": "philip@oregonstate.edu",
     "password": "hunter2",
     "role": "student"
   },
   {
     "name": "Fred Meyer",
-    "email": "fred@fredmeyer.com",
+    "email": "fred@oregonstate.edu",
     "password": "hunter2",
     "role": "student"
   },
   {
     "name": "Mike Easter",
-    "email": "mike@cyclotopia.com",
+    "email": "mike@oregonstate.edu",
     "password": "hunter2",
     "role": "student"
   },
   {
     "name": "Casey Collett",
-    "email": "casey@oregoncoffeeandtea.com",
+    "email": "casey@oregonstate.edu",
     "password": "hunter2",
     "role": "student"
   },
   {
     "name": "John Semadeni",
-    "email": "john@corvalliscycleryinc.com",
+    "email": "john@oregonstate.edu",
     "password": "hunter2",
     "role": "student"
   },
   {
     "name": "Alex Spaeth",
-    "email": "alex@spaethlumber.com",
+    "email": "alex@oregonstate.edu",
     "password": "hunter2",
     "role": "student"
   },
   {
     "name": "Tristan James",
-    "email": "tristan@newmorningbakery.com",
+    "email": "tristan@oregonstate.edu",
     "password": "hunter2",
     "role": "student"
   }
