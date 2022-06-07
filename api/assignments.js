@@ -3,11 +3,11 @@ const { ValidationError } = require('sequelize');
 const multer = require('multer');
 const crypto = require('crypto');
 
+const { requireAuth } = require('../lib/auth');
 const { Assignment, AssignmentClientFields } = require('../models/assignment');
 const { Submission, SubmissionClientFields } = require('../models/submission');
 const { Course } = require('../models/course');
 const { User } = require('../models/user');
-const { requireAuth } = require('../lib/auth');
 
 const router = Router();
 
@@ -66,18 +66,18 @@ router.post('/', requireAuth, async function (req, res) {
 });
 
 // GET /assignments/{id} - Fetch data about a specific assignment
-router.get('/:assignmentId', async function (req, res) {
+router.get('/:assignmentId', async function (req, res, next) {
     const assignmentId = parseInt(req.params.assignmentId);
     const assignment = await Assignment.findByPk(assignmentId);
     if (assignment) {
         res.status(200).send(assignment);
     } else {
-        res.status(404).send({ error: 'Specified Assignment ID not found' });
+        next();
     }
 });
 
 // PATCH /assignments/{id} - Update data for a specific assignment
-router.patch('/:assignmentId', requireAuth, async function (req, res) {
+router.patch('/:assignmentId', requireAuth, async function (req, res, next) {
     const assignmentId = parseInt(req.params.assignmentId);
     const assignment = await Assignment.findByPk(assignmentId); // used for auth
     let validInstructor = false;
@@ -101,15 +101,13 @@ router.patch('/:assignmentId', requireAuth, async function (req, res) {
         if (result[0] > 0) {
             res.status(200).send();
         } else {
-            res.status(404).send({
-                error: 'Specified Assignment ID not found',
-            });
+            next();
         }
     }
 });
 
 // DELETE /assignments/{id} - Remove a specific assignment from the database
-router.delete('/:assignmentId', requireAuth, async function (req, res) {
+router.delete('/:assignmentId', requireAuth, async function (req, res, next) {
     const assignmentId = parseInt(req.params.assignmentId);
     const assignment = await Assignment.findByPk(assignmentId); // used for auth
     let validInstructor = false;
@@ -130,9 +128,7 @@ router.delete('/:assignmentId', requireAuth, async function (req, res) {
         if (result > 0) {
             res.status(204).send();
         } else {
-            res.status(404).send({
-                error: 'Specified Assignment ID not found',
-            });
+            next();
         }
     }
 });
@@ -141,7 +137,7 @@ router.delete('/:assignmentId', requireAuth, async function (req, res) {
 router.get(
     '/:assignmentId/submissions',
     requireAuth,
-    async function (req, res) {
+    async function (req, res, next) {
         /*
          * Compute page number based on optional query string parameter `page`.
          * Make sure page is within allowed bounds.
@@ -154,9 +150,7 @@ router.get(
         const assignmentId = parseInt(req.params.assignmentId);
         const assignment = await Assignment.findByPk(assignmentId);
         if (!assignment) {
-            res.status(404).send({
-                error: 'Specified Assignment ID not found',
-            });
+            next();
         } else {
             let validInstructor = false;
             if (req.role === 'instructor') {
@@ -244,13 +238,11 @@ router.post(
     '/:assignmentId/submissions',
     requireAuth,
     upload.single('file'),
-    async function (req, res) {
+    async function (req, res, next) {
         const assignmentId = parseInt(req.params.assignmentId);
         const assignment = await Assignment.findByPk(assignmentId);
         if (!assignment) {
-            res.status(404).send({
-                error: 'Specified Assignment ID not found',
-            });
+            next();
         } else {
             let validStudent = false;
             if (req.role === 'student') {

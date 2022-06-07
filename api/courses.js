@@ -73,18 +73,18 @@ router.post('/', requireAuth, async function (req, res) {
 });
 
 // GET /courses/{id} - Fetch data about a specific course
-router.get('/:courseId', async function (req, res) {
+router.get('/:courseId', async function (req, res, next) {
     const courseId = parseInt(req.params.courseId);
     const course = await Course.findByPk(courseId);
     if (course) {
         res.status(200).send(course);
     } else {
-        res.status(404).send({ error: 'Specified Course ID not found' });
+        next();
     }
 });
 
 // PATCH /courses/{id} - Update data for a specific course
-router.patch('/:courseId', requireAuth, async function (req, res) {
+router.patch('/:courseId', requireAuth, async function (req, res, next) {
     const courseId = parseInt(req.params.courseId);
     const course = await Course.findByPk(courseId); // used for auth
     let validInstructor = false;
@@ -105,13 +105,13 @@ router.patch('/:courseId', requireAuth, async function (req, res) {
         if (result[0] > 0) {
             res.status(204).send();
         } else {
-            res.status(404).send({ error: 'Specified Course ID not found' });
+            next();
         }
     }
 });
 
 // DELETE /courses/{id} - Remove a specific course from the database
-router.delete('/:courseId', requireAuth, async function (req, res) {
+router.delete('/:courseId', requireAuth, async function (req, res, next) {
     const courseId = parseInt(req.params.courseId);
     if (req.role !== 'admin') {
         res.status(403).send({
@@ -122,17 +122,17 @@ router.delete('/:courseId', requireAuth, async function (req, res) {
         if (result > 0) {
             res.status(204).send();
         } else {
-            res.status(404).send({ error: 'Specified Course ID not found' });
+            next();
         }
     }
 });
 
 // GET /courses/{id}/students - Fetch a list of the students enrolled in the course
-router.get('/:courseId/students', requireAuth, async function (req, res) {
+router.get('/:courseId/students', requireAuth, async function (req, res, next) {
     const courseId = parseInt(req.params.courseId);
     const course = await Course.findByPk(courseId);
     if (!course) {
-        res.status(404).send({ error: 'Specified Course ID not found' });
+        next();
     } else {
         let validInstructor = false;
         if (req.role === 'instructor') {
@@ -160,46 +160,56 @@ router.get('/:courseId/students', requireAuth, async function (req, res) {
 });
 
 // POST /courses/{id}/students - Update enrollment for a course
-router.post('/:courseId/students', requireAuth, async function (req, res) {
-    const courseId = parseInt(req.params.courseId);
-    const course = await Course.findByPk(courseId);
-    if (!course) {
-        res.status(404).send({ error: 'Specified Course ID not found' });
-    } else {
-        let validInstructor = false;
-        if (req.role === 'instructor') {
-            if (course.instructorId === req.user) {
-                validInstructor = true;
-            }
-        }
-        if (req.role !== 'admin' && validInstructor === false) {
-            res.status(403).send({
-                error: 'Invalid credentials',
-            });
+router.post(
+    '/:courseId/students',
+    requireAuth,
+    async function (req, res, next) {
+        const courseId = parseInt(req.params.courseId);
+        const course = await Course.findByPk(courseId);
+        if (!course) {
+            next();
         } else {
-            try {
-                // https://sequelize.org/docs/v6/core-concepts/assocs/#foohasmanybar
-                studentsToAdd = req.body.add;
-                studentsToRemove = req.body.remove;
-                for (let i = 0; i < studentsToAdd.length; i++) {
-                    const student = await User.findByPk(studentsToAdd[i]);
-                    await course.addUser(student);
+            let validInstructor = false;
+            if (req.role === 'instructor') {
+                if (course.instructorId === req.user) {
+                    validInstructor = true;
                 }
-                for (let i = 0; i < studentsToRemove.length; i++) {
-                    const student = await User.findByPk(studentsToRemove[i]);
-                    await course.removeUser(student);
-                }
-                res.status(200).send();
-            } catch (e) {
-                if (e instanceof ValidationError) {
-                    res.status(400).send({ error: e.message });
-                } else {
-                    throw e;
+            }
+            if (req.role !== 'admin' && validInstructor === false) {
+                res.status(403).send({
+                    error: 'Invalid credentials',
+                });
+            } else {
+                try {
+                    // https://sequelize.org/docs/v6/core-concepts/assocs/#foohasmanybar
+                    studentsToAdd = req.body.add;
+                    studentsToRemove = req.body.remove;
+                    for (let i = 0; i < studentsToAdd.length; i++) {
+                        const student = await User.findByPk(studentsToAdd[i]);
+                        if (student) {
+                            await course.addUser(student);
+                        }
+                    }
+                    for (let i = 0; i < studentsToRemove.length; i++) {
+                        const student = await User.findByPk(
+                            studentsToRemove[i]
+                        );
+                        if (student) {
+                            await course.removeUser(student);
+                        }
+                    }
+                    res.status(200).send();
+                } catch (e) {
+                    if (e instanceof ValidationError) {
+                        res.status(400).send({ error: e.message });
+                    } else {
+                        throw e;
+                    }
                 }
             }
         }
     }
-});
+);
 
 // GET /courses/{id}/roster - Fetch a CSV file containing list of the students enrolled in the course
 router.get('/:courseId/roster', requireAuth, async function (req, res) {
@@ -235,11 +245,11 @@ router.get('/:courseId/roster', requireAuth, async function (req, res) {
 });
 
 // GET /courses/{id}/assignments - Fetch a list of the assignments for the course
-router.get('/:courseId/assignments', async function (req, res) {
+router.get('/:courseId/assignments', async function (req, res, next) {
     const courseId = parseInt(req.params.courseId);
     const course = await Course.findByPk(courseId);
     if (!course) {
-        res.status(404).send({ error: 'Specified Course ID not found' });
+        next();
     } else {
         const assignments = await Assignment.findAll({
             where: { courseId: courseId },

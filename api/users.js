@@ -50,7 +50,7 @@ router.post('/login', async function (req, res) {
 });
 
 // GET /users/{id} - Fetch data about a specific user
-router.get('/:userId', requireAuth, async function (req, res) {
+router.get('/:userId', requireAuth, async function (req, res, next) {
     const userId = parseInt(req.params.userId);
     if (req.user !== userId && req.role !== 'admin') {
         res.status(403).send({
@@ -100,7 +100,7 @@ router.get('/:userId', requireAuth, async function (req, res) {
                 });
             }
         } else {
-            res.status(404).send({ error: 'Specified User ID not found' });
+            next();
         }
     }
 });
