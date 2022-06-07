@@ -183,13 +183,13 @@ router.post('/:courseId/students', requireAuth, async function (req, res) {
                 // https://sequelize.org/docs/v6/core-concepts/assocs/#foohasmanybar
                 //req.body.add.forEach(userId => await course.addUser(userId));
                 //req.body.remove.forEach(userId => await course.removeUser(userId));
-                await course.addUser(req.body.add);
-                //for (const userId of req.body.add) {
-                //    await course.addUser(userId);
-                //}
-                //for (const userId of req.body.remove) {
-                //    await course.removeUser(userId);
-                //}
+                //await course.addUser(req.body.add);
+                for (const userId of req.body.add) {
+                    await course.addUser(userId);
+                }
+                for (const userId of req.body.remove) {
+                    await course.removeUser(userId);
+                }
                 res.status(200).send();
             } catch (e) {
                 if (e instanceof ValidationError) {
