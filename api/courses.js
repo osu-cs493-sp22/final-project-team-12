@@ -1,6 +1,7 @@
 const { Router } = require('express');
 const { ValidationError } = require('sequelize');
 const { parse } = require('json2csv');
+const { Op } = require("sequelize");
 
 const { requireAuth } = require('../lib/auth');
 const { Course, CourseClientFields } = require('../models/course');
@@ -20,7 +21,43 @@ router.get('/', async function (req, res) {
     const numPerPage = 10;
     const offset = (page - 1) * numPerPage;
 
+    let subject = req.query.subject
+    let number = req.query.number
+    let term = req.query.term
+    let where = {};
+    if (req.query.subject) {
+        if (req.query.number) {
+            if (req.query.term) {
+                where = [{subject: subject}, {number: number}, {term: term}]
+            } else{
+                where = [{subject: subject}, {number: number}]
+            }
+        }
+        else {
+            if (req.query.term){
+                where = [{subject: subject}, {term: term}]
+            } else {
+                where = {subject: subject}
+            }
+        }
+    }
+    else {
+        if (req.query.number) {
+            if (req.query.term) {
+                where = [{number: number}, {term: term}]
+            } else{
+                where = {number: number}
+            }
+        }
+        else {
+            if (req.query.term){
+                where = {term: term}
+            }
+        }
+    }
+    console.log("==  where: ", where)
     const result = await Course.findAndCountAll({
+        where: where,
         limit: numPerPage,
         offset: offset,
     });
