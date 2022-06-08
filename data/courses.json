@@ -3,35 +3,56 @@
     "subject": "CS",
     "number": "493",
     "title": "Cloud Application Development",
-    "term": "Spring 2022",
+    "term": "sp22",
     "instructorId": 2
   },
   {
     "subject": "CS",
     "number": "340",
     "title": "Intro to Databases",
-    "term": "Spring 2022",
+    "term": "sp22",
     "instructorId": 3
   },
   {
     "subject": "CS",
     "number": "444",
     "title": "Operating Systems II",
-    "term": "Spring 2022",
+    "term": "fa22",
     "instructorId": 2
   },
   {
     "subject": "CS",
     "number": "344",
     "title": "Operating Systems I",
-    "term": "Spring 2022",
+    "term": "wi22",
     "instructorId": 4
   },
   {
     "subject": "CS",
     "number": "440",
     "title": "Database Management Systems",
-    "term": "Spring 2022",
+    "term": "wi22",
+    "instructorId": 3
+  },
+  {
+    "subject": "ECE",
+    "number": "375",
+    "title": "Computer Organization and Assembly Language Programming",
+    "term": "fa22",
+    "instructorId": 4
+  },
+  {
+    "subject": "CS",
+    "number": "261",
+    "title": "Data Structures",
+    "term": "sp22",
+    "instructorId": 2
+  },
+  {
+    "subject": "CS",
+    "number": "290",
+    "title": "Web Development",
+    "term": "sp22",
     "instructorId": 3
   }
 ]
