@@ -1,8 +1,6 @@
 <!-- PROJECT -->
 # Tarpaulin
 
-![Project Screenshot][project-screenshot]
-
 Tarpaulin is a RESTful API that stores and provides data for a learning management system similar to Canvas. 
 
 
@@ -54,5 +52,11 @@ To run the project, follow these steps.
 
 
 
-<!-- LINKS & IMAGES -->
-[project-screenshot]: /docs/screenshot.png
+<!-- AUTHORS -->
+## Authors
+
+CS 493 Final Project Team 12
+
+* [Steven Bui](https://github.com/buistvn)
+* [Christian Herinckx](https://github.com/cherinckx14)
+* [Alex Young](https://github.com/axyoung)
